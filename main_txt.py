@@ -1,7 +1,11 @@
 # main.py
 import for_text
 import token_stop_lemm
-from visualisation_txt import plot_token_comparison
+from visualisation import (
+    plot_token_comparison,
+    plot_lemmatization_comparison,
+    plot_entities_comparison,
+)
 
 # Чтение текста
 text = for_text.read_text("txt/pedagogika.txt")
@@ -24,6 +28,8 @@ nltk_entities = token_stop_lemm.extract_entities_nltk(text)
 
 # Визуализация
 plot_token_comparison(spacy_tokens, nltk_tokens, spacy_cleaned, nltk_cleaned)
+plot_lemmatization_comparison(spacy_lemmas, nltk_lemmas)
+plot_entities_comparison(spacy_entities, nltk_entities)
 
 # Вывод результатов
 print("Токены (spaCy):", spacy_tokens[:10])
