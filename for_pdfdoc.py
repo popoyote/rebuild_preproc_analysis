@@ -1,4 +1,6 @@
 # for_pdfdoc.py
+import os
+
 import pdfplumber
 import PyPDF2  # Альтернатива pdfplumber
 import docx2txt
@@ -52,3 +54,28 @@ def extract_text_docx2txt(file_path):
     except Exception as e:
         print(f"Ошибка docx2txt: {e}")
         return ""
+
+
+def define_type(file_path):
+    """Обрабатывает файл в зависимости от его расширения."""
+    # Получаем расширение файла
+    _, file_extension = os.path.splitext(file_path)
+
+    # Приводим расширение к нижнему регистру для унификации
+    file_extension = file_extension.lower()
+
+    # Обработка PDF
+    if file_extension == ".pdf":
+        print(f"Обработка PDF-файла: {file_path}")
+        text = extract_text_pypdf2(file_path)
+
+    # Обработка DOCX
+    elif file_extension == ".docx":
+        print(f"Обработка DOCX-файла: {file_path}")
+        text = extract_text_docx(file_path)
+
+    # Неподдерживаемый формат
+    else:
+        print(f"Неподдерживаемый формат файла: {file_path}")
+        return None
+    return text

@@ -6,6 +6,8 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import pymorphy2
 
+from visualisation import plot_token_comparison, plot_entities_comparison, plot_lemmatization_comparison
+
 # Загрузка необходимых ресурсов
 nltk.download("punkt")
 nltk.download("stopwords")
@@ -69,3 +71,35 @@ def extract_entities_nltk(text):
         entities.extend([{"first": match.fact.first, "last": match.fact.last} for match in matches])
 
     return entities
+
+
+def process_file(text):
+    print("Токенизация текста...")
+    tokens_spacy = tokenize_with_spacy(text)
+    tokens_nltk = tokenize_with_nltk(text)
+
+    print("Удаление стоп-слов...")
+    cleaned_tokens_spacy = remove_stopwords_spacy(tokens_spacy)
+    cleaned_tokens_nltk = remove_stopwords_nltk(tokens_nltk)
+
+    print("Лемматизация текста...")
+    lemmas_spacy = lemmatize_with_spacy(cleaned_tokens_spacy)
+    lemmas_nltk = lemmatize_with_nltk(cleaned_tokens_nltk)
+
+    print("Извлечение сущностей...")
+    entities_spacy = extract_entities_spacy(text)
+    entities_nltk = extract_entities_nltk(text)
+
+    # Визуализация результатов (опционально)
+    plot_token_comparison(tokens_spacy, tokens_nltk, cleaned_tokens_spacy, cleaned_tokens_nltk)
+    plot_lemmatization_comparison(lemmas_spacy, lemmas_nltk)
+    plot_entities_comparison(entities_spacy, entities_nltk)
+
+    # Возвращаем результаты
+    return {
+        "text": text,
+        "tokens": tokens_spacy,
+        "cleaned_tokens": cleaned_tokens_spacy,
+        "lemmas": lemmas_spacy,
+        "entities": entities_spacy,
+    }

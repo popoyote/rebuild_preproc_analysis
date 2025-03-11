@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 from paddleocr import PaddleOCR
-
+import os
+from PIL import Image
 
 def improve_image_quality(image_path):
     """Улучшает качество изображения: повышение резкости и шумоподавление."""
@@ -34,3 +35,12 @@ def extract_text_from_image(image_path):
     extracted_text = " ".join([line[-1][0] for line in result])
     return extracted_text
 
+
+def convert_to_png(image_path):
+    """Конвертирует изображение в формат PNG, если оно не в PNG."""
+    if not image_path.lower().endswith('.png'):
+        img = Image.open(image_path)
+        png_path = os.path.splitext(image_path)[0] + ".png"
+        img.save(png_path, "PNG")
+        return png_path
+    return image_path
