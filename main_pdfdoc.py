@@ -5,11 +5,8 @@ from token_stop_lemm import (
 )
 
 
-def process_folder(folder_path, output_folder):
+def process_folder(folder_path):
     """Обрабатывает все файлы в папке."""
-    # Создаем папку для результатов, если она не существует
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
 
     # Проходим по всем файлам в папке
     for filename in os.listdir(folder_path):
@@ -23,5 +20,4 @@ def process_folder(folder_path, output_folder):
 
 
 folder_path = "pdf_word"  # Укажите путь к папке с файлами
-output_folder = "results"  # Папка для сохранения результатов
-process_folder(folder_path, output_folder)
+process_folder(folder_path)
